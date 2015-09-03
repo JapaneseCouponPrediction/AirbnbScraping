@@ -113,5 +113,3 @@ def dummyCode(x,  cols = [u'BookInstantly', u'Cancellation', u'RespTime', u'S_Be
     retainedCols = [a for a in dfCopy.columns if a not in cols]
     
     return dfCopy[retainedCols]
-        
-

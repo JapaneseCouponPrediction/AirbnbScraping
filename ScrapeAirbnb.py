@@ -49,7 +49,7 @@ br.addheaders = [('User-agent',
 #  Wrapper Functions    ###############
 #######################################
 
-def IterateMainPage(location_string, loop_limit): 
+def IterateMainPage(location_string, pg_st, pg_ed): 
     MainResults = []
     """
     input: 
@@ -74,8 +74,8 @@ def IterateMainPage(location_string, loop_limit):
     
     
     try:
-        for n in range(1, loop_limit+1):
-            print 'Processing Main Page %s out of %s' % (str(n), str(loop_limit))
+        for n in range(pg_st, pg_ed+1):
+            print 'Processing Main Page %s out of %s' % (str(n), str(pg_ed-pg_st+1))
             #Implement random time delay for scraping
             sleep(randint(0,2))
             current_url = ''.join([base_url, location_string, page_url, str(n)])
@@ -792,13 +792,13 @@ def writeToCSV(resultDict, outfile):
         w = DictUnicodeWriter(f, fieldnames=colnames)
         w.writeheader()
         w.writerows(resultDict)
+
 #%%
 #######################################
 #  Testing ############################
 #######################################
-
+'''
 if __name__ == '__main__':
-    pathh = 'C:\Users\Yujie\Google Drive\datascientist\projects\Airbnb_scraping\\'
     #Iterate Through Main Page To Get Results
     MainResults = IterateMainPage('Cambridge--MA', 1)
     
@@ -809,5 +809,19 @@ if __name__ == '__main__':
     #Write Out Results To CSV File, using function I defined
     writeToCSV(MainResults, pathh + 'OtherWriter.csv')
     writeToCSV(DetailResults, pathh + 'OtherWriter.csv')
+'''
+
+if __name__ == '__main__':
+    import sys
+    loc = sys.argv[1]
+    pg_st = int(sys.argv[2])
+    pg_ed = int(sys.argv[3])
+
+    flnm = loc+'_'+str(pg_st)+'_'+str(pg_ed)+'.csv'
     
-    
+    MainResults = IterateMainPage(loc, pg_st, pg_ed)
+    writeToCSV(MainResults, flnm)
+
+    DetailResults = iterateDetail(MainResults)
+    writeToCSV(DetailResults, flnm)
+
