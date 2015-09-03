@@ -487,15 +487,7 @@ def getAboutListing(tree, ListingID):
     the "About This Listing" and extracts the associated text
     """  
     try:
-    #Go To The Panel-Body
-        elements = tree.xpath('//div[@class="panel-body"]/h4')
-
-        #Search For "About This Listing" In Elements    
-        for element in elements:
-            if element.text.find('About This Listing') >= 0:
-                #When You Find, it return the text that comes afterwards
-                return element.getnext().text
-
+        return tree.xpath('//*[@id="details-column"]/div/p[1]/text()')
     except:
         print 'Error finding *About Listing* for listing ID: %s' % ListingID
         return 'No Description Found'
@@ -824,4 +816,3 @@ if __name__ == '__main__':
 
     DetailResults = iterateDetail(MainResults)
     writeToCSV(DetailResults, flnm)
-
